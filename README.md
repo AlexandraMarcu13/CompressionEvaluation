@@ -24,7 +24,7 @@ by comparing hash values, and generate an HTML report. The generated .html file 
 
 ## Custom Test Files
 
-Place your own files in the TestFiles folder. The tool will process any file that is not already compressed.
+Place your own files in the TestFiles folder, which will be created after the first execution of the program. The tool will process any file that is not already compressed.
 
 ## Algorithms Summary
 
