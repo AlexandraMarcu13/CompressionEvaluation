@@ -1,0 +1,15 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.compressed
+*.rle
+*.br
+*.gz
+*.gzip
+*.lz4
+*.zst
+TestFiles/
+*.pdf
+*.html
