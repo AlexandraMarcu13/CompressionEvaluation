@@ -4,8 +4,6 @@ namespace CompressionEvaluation.Utils
 {
     public static class FileHelper
     {
-
-        // Creates sample test files (only if they don't exist)
         public static void CreateSampleTestFiles(string directory, bool forceOverwrite = false)
         {
             Directory.CreateDirectory(directory);
@@ -29,12 +27,11 @@ namespace CompressionEvaluation.Utils
                 Console.WriteLine($"    Skipped: {Path.GetFileName(textFile)} (already exists)");
             }
 
-            
             string binaryFile = Path.Combine(directory, "sample_random.bin");
             if (forceOverwrite || !File.Exists(binaryFile))
             {
                 var random = new Random();
-                byte[] data = new byte[1024 * 1024]; 
+                byte[] data = new byte[1024 * 1024];
                 random.NextBytes(data);
                 File.WriteAllBytes(binaryFile, data);
                 Console.WriteLine($"Created: {Path.GetFileName(binaryFile)}");
@@ -44,7 +41,6 @@ namespace CompressionEvaluation.Utils
                 Console.WriteLine($"    Skipped: {Path.GetFileName(binaryFile)} (already exists)");
             }
 
-            
             string repetitiveFile = Path.Combine(directory, "sample_repetitive.txt");
             if (forceOverwrite || !File.Exists(repetitiveFile))
             {
@@ -76,7 +72,6 @@ namespace CompressionEvaluation.Utils
                 Console.WriteLine($"    Skipped: {Path.GetFileName(repetitiveFile)} (already exists)");
             }
 
-            
             string jsonFile = Path.Combine(directory, "sample_data.json");
             if (forceOverwrite || !File.Exists(jsonFile))
             {
@@ -103,7 +98,6 @@ namespace CompressionEvaluation.Utils
                 Console.WriteLine($"    Skipped: {Path.GetFileName(jsonFile)} (already exists)");
             }
 
-            
             string csvFile = Path.Combine(directory, "sample_data.csv");
             if (forceOverwrite || !File.Exists(csvFile))
             {
@@ -114,7 +108,6 @@ namespace CompressionEvaluation.Utils
                 Console.WriteLine($"    Skipped: {Path.GetFileName(csvFile)} (already exists)");
             }
 
-            
             string sqlFile = Path.Combine(directory, "sample_database.sql");
             if (forceOverwrite || !File.Exists(sqlFile))
             {
@@ -125,7 +118,6 @@ namespace CompressionEvaluation.Utils
                 Console.WriteLine($"    Skipped: {Path.GetFileName(sqlFile)} (already exists)");
             }
 
-            
             string xmlFile = Path.Combine(directory, "sample_data.xml");
             if (forceOverwrite || !File.Exists(xmlFile))
             {
@@ -136,8 +128,6 @@ namespace CompressionEvaluation.Utils
                 Console.WriteLine($"    Skipped: {Path.GetFileName(xmlFile)} (already exists)");
             }
 
-
-    
             string lz4SensorFile = Path.Combine(directory, "lz4_sensor_realtime.bin");
             if (forceOverwrite || !File.Exists(lz4SensorFile))
             {
@@ -147,10 +137,10 @@ namespace CompressionEvaluation.Utils
 
                 for (int packet = 0; packet < 100000; packet++)
                 {
-                    writer.Write(packet);                      
-                    writer.Write(random.Next(0, 100));         
-                    writer.Write(random.Next(0, 100));         
-                    writer.Write(random.Next(0, 100));         
+                    writer.Write(packet);
+                    writer.Write(random.Next(0, 100));
+                    writer.Write(random.Next(0, 100));
+                    writer.Write(random.Next(0, 100));
                 }
                 File.WriteAllBytes(lz4SensorFile, ms.ToArray());
                 Console.WriteLine($"    Created: {Path.GetFileName(lz4SensorFile)} (LZ4 will be FASTEST - real-time!)");
@@ -169,7 +159,7 @@ namespace CompressionEvaluation.Utils
 
                 for (int i = 0; i < 200000; i++)
                 {
-                    writer.Write(random.Next(0, 65535)); 
+                    writer.Write(random.Next(0, 65535));
                 }
                 File.WriteAllBytes(lz4SpeedFile, ms.ToArray());
                 Console.WriteLine($"    Created: {Path.GetFileName(lz4SpeedFile)} (LZ4 will be FASTEST)");
@@ -186,14 +176,11 @@ namespace CompressionEvaluation.Utils
                 using var writer = new BinaryWriter(ms);
                 var random = new Random(42);
 
-    
                 for (int i = 0; i < 50000; i++)
                 {
-                  
                     for (int j = 0; j < 20; j++)
-                        writer.Write((byte)65); 
+                        writer.Write((byte)65);
 
-                   
                     writer.Write(random.Next(0, 255));
                     writer.Write(random.Next(0, 255));
                 }
@@ -204,8 +191,6 @@ namespace CompressionEvaluation.Utils
             {
                 Console.WriteLine($"   Skipped: {Path.GetFileName(zstdBalanceFile)} (already exists)");
             }
-
-  
 
             string streamingFile = Path.Combine(directory, "sample_stream_data.txt");
             if (forceOverwrite || !File.Exists(streamingFile))
@@ -224,9 +209,28 @@ namespace CompressionEvaluation.Utils
             {
                 Console.WriteLine($"  Skipped: {Path.GetFileName(streamingFile)} (already exists)");
             }
+
+            string largeTextFile = Path.Combine(directory, "large_text_25mb.txt");
+            if (forceOverwrite || !File.Exists(largeTextFile))
+            {
+                CreateLargeTextFile(largeTextFile);
+            }
+            else
+            {
+                Console.WriteLine($"    Skipped: {Path.GetFileName(largeTextFile)} (already exists)");
+            }
+
+            string largeBinaryFile = Path.Combine(directory, "large_binary_20mb.bin");
+            if (forceOverwrite || !File.Exists(largeBinaryFile))
+            {
+                CreateLargeBinaryFile(largeBinaryFile);
+            }
+            else
+            {
+                Console.WriteLine($"    Skipped: {Path.GetFileName(largeBinaryFile)} (already exists)");
+            }
         }
 
- 
         private static void CreateCsvFile(string directory, bool forceOverwrite)
         {
             string csvFile = Path.Combine(directory, "sample_data.csv");
@@ -239,7 +243,7 @@ namespace CompressionEvaluation.Utils
             string[] countries = { "USA", "Canada", "UK", "Germany", "France", "Japan", "Brazil", "Australia" };
             string[] statuses = { "Completed", "Pending", "Shipped", "Delivered", "Cancelled" };
 
-            var random = new Random(42); 
+            var random = new Random(42);
 
             for (int i = 1; i <= 10000; i++)
             {
@@ -261,13 +265,11 @@ namespace CompressionEvaluation.Utils
             Console.WriteLine($"Created: {Path.GetFileName(csvFile)} ({FormatBytes(new FileInfo(csvFile).Length)})");
         }
 
-
         private static void CreateSqlDump(string directory, bool forceOverwrite)
         {
             string sqlFile = Path.Combine(directory, "sample_database.sql");
             var sb = new StringBuilder();
 
-      
             sb.AppendLine("-- =============================================");
             sb.AppendLine("-- SAMPLE DATABASE DUMP FOR COMPRESSION TESTING");
             sb.AppendLine("-- Generated: " + DateTime.Now);
@@ -315,7 +317,6 @@ namespace CompressionEvaluation.Utils
 
                 sb.AppendLine($"INSERT INTO users VALUES ({i}, '{username}', '{email}', '{country}', {age}, '{regDate}', {isActive.ToString().ToLower()});");
 
-
                 if (i % 5000 == 0)
                 {
                     sb.AppendLine($"-- {i} users inserted...");
@@ -338,13 +339,11 @@ namespace CompressionEvaluation.Utils
 
                 sb.AppendLine($"INSERT INTO orders VALUES ({i}, {userId}, '{product}', {quantity}, {price}, '{orderDate}', '{status}');");
 
-  
                 if (i % 10000 == 0)
                 {
                     sb.AppendLine($"-- {i} orders inserted...");
                 }
             }
-
 
             sb.AppendLine("\n-- Creating indexes for better performance");
             sb.AppendLine("CREATE INDEX idx_users_email ON users(email);");
@@ -358,12 +357,10 @@ namespace CompressionEvaluation.Utils
             Console.WriteLine($"Created: {Path.GetFileName(sqlFile)} ({FormatBytes(new FileInfo(sqlFile).Length)})");
         }
 
-
         private static void CreateXmlFile(string directory, bool forceOverwrite)
         {
             string xmlFile = Path.Combine(directory, "sample_data.xml");
             var sb = new StringBuilder();
-
 
             sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             sb.AppendLine("<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>");
@@ -380,7 +377,6 @@ namespace CompressionEvaluation.Utils
             sb.AppendLine("        <version>2.0</version>");
             sb.AppendLine("        <company>Compression Test Labs</company>");
             sb.AppendLine("    </metadata>");
-
 
             string[] categories = { "Electronics", "Clothing", "Books", "Home & Garden", "Sports", "Toys", "Automotive", "Health", "Beauty", "Food" };
             string[] adjectives = { "Premium", "Deluxe", "Basic", "Pro", "Ultra", "Standard", "Advanced", "Essential", "Professional", "Compact" };
@@ -427,7 +423,6 @@ namespace CompressionEvaluation.Utils
                 sb.AppendLine($"        </metadata>");
                 sb.AppendLine($"    </product>");
 
-
                 if (i % 1000 == 0)
                 {
                     sb.AppendLine($"    <!-- {i} products generated -->");
@@ -438,6 +433,78 @@ namespace CompressionEvaluation.Utils
 
             File.WriteAllText(xmlFile, sb.ToString());
             Console.WriteLine($" Created: {Path.GetFileName(xmlFile)} ({FormatBytes(new FileInfo(xmlFile).Length)})");
+        }
+
+        private static void CreateLargeTextFile(string path)
+        {
+            Console.WriteLine("    Creating large text file (~25 MB, this may take a moment)...");
+
+            var paragraph = new StringBuilder();
+            paragraph.AppendLine("The quick brown fox jumps over the lazy dog while the sun sets slowly behind");
+            paragraph.AppendLine("the distant mountains. In the quiet valley below, a small river winds its way");
+            paragraph.AppendLine("through ancient forests where deer graze peacefully in the fading light. Every");
+            paragraph.AppendLine("evening the same scene unfolds: birds return to their nests, farmers finish");
+            paragraph.AppendLine("their work in the fields, and the first stars begin to appear in the darkening");
+            paragraph.AppendLine("sky. This is the rhythm of rural life, unchanged for generations, where each");
+            paragraph.AppendLine("season brings its own familiar patterns and the passage of time is measured");
+            paragraph.AppendLine("not by clocks but by the turning of the earth and the cycles of nature.");
+            paragraph.AppendLine();
+
+            string paragraphText = paragraph.ToString();
+
+            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20);
+            using var writer = new StreamWriter(stream);
+
+            const long targetSizeBytes = 25L * 1024 * 1024;
+            long written = 0;
+            int section = 0;
+
+            while (written < targetSizeBytes)
+            {
+                string header = $"=== Section {section} ===\n";
+                writer.Write(header);
+                written += header.Length;
+
+                writer.Write(paragraphText);
+                written += paragraphText.Length;
+
+                string uniqueLine = $"Record: {section:D6} | ID: {Guid.NewGuid():N} | Value: {section * 37 % 10000}\n";
+                writer.Write(uniqueLine);
+                written += uniqueLine.Length;
+
+                section++;
+            }
+
+            writer.Flush();
+            Console.WriteLine($"    Created: {Path.GetFileName(path)} ({FormatBytes(new FileInfo(path).Length)}) — parallel will shine here!");
+        }
+
+        private static void CreateLargeBinaryFile(string path)
+        {
+            Console.WriteLine("    Creating large binary file (~20 MB)...");
+
+            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20);
+            using var writer = new BinaryWriter(stream);
+
+            var random = new Random(12345);
+
+            const long targetSizeBytes = 20L * 1024 * 1024;
+            int recordCount = (int)(targetSizeBytes / 20);
+
+            for (int i = 0; i < recordCount; i++)
+            {
+                writer.Write(i);
+                writer.Write((byte)(i % 16));
+                writer.Write((byte)random.Next(0, 4));
+                writer.Write((short)random.Next(0, 1000));
+                writer.Write((short)(i % 200));
+
+                for (int p = 0; p < 8; p++)
+                    writer.Write(p == 4 ? (byte)random.Next(0, 256) : (byte)0);
+            }
+
+            writer.Flush();
+            Console.WriteLine($"    Created: {Path.GetFileName(path)} ({FormatBytes(new FileInfo(path).Length)}) — mixed compressibility, shows parallel balance!");
         }
 
         public static string[] GetTestFiles(string directory)
@@ -459,7 +526,6 @@ namespace CompressionEvaluation.Utils
                 .ToArray();
         }
 
-
         public static void DisplayInputFiles(string directory)
         {
             var files = GetTestFiles(directory);
@@ -473,7 +539,6 @@ namespace CompressionEvaluation.Utils
             Console.WriteLine($"\nFound {files.Length} file(s) to test:");
             Console.WriteLine(new string('-', 70));
 
-      
             var grouped = files.GroupBy(f => Path.GetExtension(f).ToLower());
 
             foreach (var group in grouped.OrderBy(g => g.Key))
@@ -489,7 +554,6 @@ namespace CompressionEvaluation.Utils
             Console.WriteLine();
         }
 
-   
         public static string FormatBytes(long bytes)
         {
             string[] sizes = { "B", "KB", "MB", "GB", "TB" };
@@ -503,7 +567,6 @@ namespace CompressionEvaluation.Utils
             return $"{len:F2} {sizes[order]}";
         }
 
- 
         public static void DisplayFileInfo(string filePath)
         {
             var info = new FileInfo(filePath);
